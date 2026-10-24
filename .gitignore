@@ -1,0 +1,6 @@
+/logs/
+/data/
+*.exe
+*.log
+.idea/
+.vscode/

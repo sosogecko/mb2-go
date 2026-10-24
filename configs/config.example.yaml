@@ -1,0 +1,27 @@
+server:
+  addr: "0.0.0.0:8080"
+  mode: release # debug / release
+
+mysql:
+  host: "127.0.0.1"
+  port: 3306
+  user: ""
+  password: ""
+  database: "superpanel"
+  charset: "utf8mb4"
+
+cache:
+  dir: "data/cache"
+
+log:
+  dir: "logs"
+  max_size_mb: 100
+  max_age_days: 30
+  compress: true
+
+paymentwall:
+  public_key: ""
+  private_key: ""
+  widget: "p1_1"
+
+timezone: "Asia/Shanghai"

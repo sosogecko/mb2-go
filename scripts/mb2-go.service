@@ -1,0 +1,14 @@
+[Unit]
+Description=mb2-go API
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/data/mb2-go
+ExecStart=/data/mb2-go/mb2-go -config /opt/mb2-go/configs/config.yaml
+Restart=always
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

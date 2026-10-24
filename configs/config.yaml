@@ -1,0 +1,27 @@
+server:
+  addr: "0.0.0.0:8080"
+  mode: release
+
+mysql:
+  host: "172.235.40.153"
+  port: 3306
+  user: "colo2019"
+  password: "Qsa#ajizB36"
+  database: "superpanel"
+  charset: "utf8mb4"
+
+cache:
+  dir: "data/cache"
+
+log:
+  dir: "logs"
+  max_size_mb: 100
+  max_age_days: 30
+  compress: true
+
+paymentwall:
+  public_key: "296153ed02434c78ac556ae5a2ceecd6"
+  private_key: "a3cc0bd27832e4be5d07349da4758e24"
+  widget: "p1_1"
+
+timezone: "Asia/Shanghai"
