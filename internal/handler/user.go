@@ -157,7 +157,12 @@ func (h *UserHandler) GetPaymentWallURL(c *gin.Context, user *model.UserSession)
 }
 
 func (h *UserHandler) GetReplyList(c *gin.Context, user *model.UserSession) {
-	list, err := h.QueryMaps("SELECT * FROM gecko.`comment` WHERE ask_user = ? AND readed = 0 AND answer_content is not NULL order BY ask_time DESC", user.Email)
+	isAll := c.Query("isAll") == "1"
+	query := "SELECT * FROM gecko.`comment` WHERE ask_user = ? AND readed = 0 AND answer_content is not NULL order BY ask_time DESC"
+	if isAll {
+		query = "SELECT * FROM gecko.`comment` WHERE ask_user = ? order BY ask_time DESC"
+	}
+	list, err := h.QueryMaps(query, user.Email)
 	if err != nil {
 		h.Log.App.Error("getReplyList query failed", zap.Error(err), zap.String("email", user.Email))
 		web.JSON(c, gin.H{"err": 2, "data": web.T(c, "serverException")})
@@ -174,8 +179,10 @@ func (h *UserHandler) GetReplyList(c *gin.Context, user *model.UserSession) {
 			"replyTime":    util.MapGetCI(row, "answer_time"),
 		})
 	}
-	if err := h.DB.Exec("update gecko.`comment` set readed = 1 where ask_user = ? and readed = 0", user.Email).Error; err != nil {
-		h.Log.App.Error("getReplyList mark read failed", zap.Error(err), zap.String("email", user.Email))
+	if !isAll {
+		if err := h.DB.Exec("update gecko.`comment` set readed = 1 where ask_user = ? and readed = 0", user.Email).Error; err != nil {
+			h.Log.App.Error("getReplyList mark read failed", zap.Error(err), zap.String("email", user.Email))
+		}
 	}
 	web.JSON(c, gin.H{"err": 0, "data": comments})
 }
